@@ -19,8 +19,21 @@ public class Accounts {
         this.balance += amount;
     }
 
+    public void setBalance(double balance){
+        this.balance = balance;
+    }
+
+    public int getID(){
+        int id;
+        id = this.accountID;
+        return id;
+    }
+
     // more function for this class Accounts
     // some one need to come up with possible function for this
+
+    // get, set methods
+    //
 }
 
 public class Transactions {
@@ -57,6 +70,7 @@ public class Main {
         // rundown for how the process should work
         // choose (possible) option
         //1) create account
+        // input type, input bal, id then gen
         //2) create transaction
         //3) display with sorting func (talk at friday)
     }
