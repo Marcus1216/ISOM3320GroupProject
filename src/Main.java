@@ -80,7 +80,17 @@ public class Main {
         Transactions newTransaction = new Transactions(transactionDate, transactionType, accountID, amount, remarks);
         return newTransaction;
     }
-    public static void completeTransaction(Accounts currentAccount, Transactions thisTransaction){}
+    public static void completeTransaction(Accounts currentAccount, Transactions thisTransaction){
+        currentAccount.addToBalance(thisTransaction.amount);
+        thisTransaction.completeTransactionForOtherAccount();
+    }
+    public static void transactionprocess(Accounts currentAccount , Scanner sc){
+        Transactions newTransaction = Main.createTransactions(sc);
+        //Maybe Can ask user to confirm info
+        newTransaction.displayTransactionInfo();
+        System.out.println("Completing Transcation...")
+        completeTransaction(currentAccount, newTransaction);
+    }
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         // rundown for how the process should work
