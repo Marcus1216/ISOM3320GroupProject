@@ -40,7 +40,7 @@ public class Transactions {
         this.transactionID = String.format("%07d", transactionCount); //Covert to 0000001 , String
         this.transactionDate = transactionDate;
         this.transactionType = transactionType;
-        Accounts otherAccount = //get Account from AccountID;
+        Accounts otherAccount = //get  Account from AccountID;
         this.otherAccount = otherAccount
         this.amount = amount;
         this.remarks = remarks;
