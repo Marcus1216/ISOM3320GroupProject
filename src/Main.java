@@ -1,5 +1,6 @@
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
+import java.util.Scanner;
 public class Accounts {
     int accountID;
     String currencyType;
@@ -28,18 +29,19 @@ public class Transactions {
     private final String transactionID;
     String transactionDate;
     String transactionType;
-    Accounts otherAccount; //need ammend
+    int otherAccountID; //need ammend
     double amount;
     String remarks;
 
     public Transactions(String transactionDate ,
-                        String transactionType, int accountID,
+                        String transactionType, int otherAccountID,
                         double amount , String remarks){
         transactionCounter++;
         this.transactionID = String.format("%07d", transactionCount); //Covert to 0000001 , String
         this.transactionDate = transactionDate;
         this.transactionType = transactionType;
-        this.accountID = accountID;
+        Accounts otherAccount = //get Account from AccountID;
+        this.otherAccount = otherAccount
         this.amount = amount;
         this.remarks = remarks;
     }
@@ -58,7 +60,29 @@ public class Main {
     public static Accounts createDummyAccounts(){
 
     }
+    public static Transactions createTransactions(Scanner sc){
+        System.out.println("Please enter your transaction details in the following format");
+        System.out.print("transactionDate , transactionType, Other Account ID, amount , remarks :");
+        String transactionInput = sc.nextLine(); //read input
+        String[] detailsArray = transactionInput.split(",")
+        while (detailsArray.length != 5){
+            System.out.print("please enter all five transaction details:");
+            transactionInput = sc.nextLine(); //read input
+            detailsArray = transactionInput.split(",")
+        }
+        // get all respective details
+        String transactionDate = detailsArray[0].trim();
+        String transactionType = detailsArray[1].trim();
+        int accountID = Integer.parseInt(detailsArray[2].trim());
+        double amount = Double.parseDouble(detailsArray[3].trim());
+        String remarks = detailsArray[4].trim();
+        //create Transactions class
+        Transactions newTransaction = new Transactions(transactionDate, transactionType, accountID, amount, remarks);
+        return newTransaction;
+    }
+    public static void completeTransaction(Accounts currentAccount, Transactions thisTransaction){}
     public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
         // rundown for how the process should work
         // choose (possible) option
         //1) create account
