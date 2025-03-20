@@ -24,17 +24,19 @@ public class Accounts {
 }
 
 public class Transactions {
-    int transactionID;
+    private static int transactionCounter = 0; //Counter inside class
+    private final String transactionID;
     String transactionDate;
     String transactionType;
     Accounts otherAccount; //need ammend
     double amount;
     String remarks;
 
-    public Transactions(int transactionID , String transactionDate ,
+    public Transactions(String transactionDate ,
                         String transactionType, int accountID,
                         double amount , String remarks){
-        this.transactionID = transactionID;
+        transactionCounter++;
+        this.transactionID = String.format("%07d", transactionCount); //Covert to 0000001 , String
         this.transactionDate = transactionDate;
         this.transactionType = transactionType;
         this.accountID = accountID;
@@ -42,12 +44,15 @@ public class Transactions {
         this.remarks = remarks;
     }
     public void displayTransactionInfo(){
-        System.out.printf("Transaction information:\nID:%d\nDate:%s\nType:%s\nThe acount Id this transaction belong:%d\nAmount:%.2f\nRemarks:%s",
+        System.out.printf("Transaction information:\nID:%s\nDate:%s\nType:%s\nThe other acount Id this transaction affect:%d\nAmount:%.2f\nRemarks:%s",
                 this.transactionID , this.transactionDate , this.transactionType,
-                this.accountID , this.amount , this.remarks)
+                this.otherAccount.accountID; , this.amount , this.remarks);
     }
     // more function for this class Transaction
     // some one need to come up with possible function for this
+    public void completeTransactionForOtherAccount(){
+        this.otherAccount.addToBalance(-this.amount);
+    }
 }
 public class Main {
     public static Accounts createDummyAccounts(){
