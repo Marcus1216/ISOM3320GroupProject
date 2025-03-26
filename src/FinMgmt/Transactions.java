@@ -1,9 +1,11 @@
 package FinMgmt;
 
+import java.util.Date;
+
 public class Transactions {
     private static int idCounter = 1; // Static ID generator for transactions
     private int transactionID;
-    private String transactionDate;
+    private String transactionDate;  // import java.util.date
     private String transactionType; // Merged field from `TransactionType`
     private Accounts account; // Reference to an account
     private double amount;
@@ -18,6 +20,8 @@ public class Transactions {
         this.amount = amount;
         this.remarks = remarks;
     }
+    //Getters
+
 
     // Display transaction details
     public void displayTransactionInfo() {
@@ -27,3 +31,5 @@ public class Transactions {
         );
     }
 }
+
+//Currency type?

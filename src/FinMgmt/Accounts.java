@@ -3,7 +3,7 @@ package FinMgmt;
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Accounts {
-    private static int idCounter = 1; // Static ID generator
+    private static int idCounter = 1; // counter
     private int accountID;
     private String currencyType;
     private double balance;
@@ -17,6 +17,7 @@ public class Accounts {
 
     // Getters
     public int getAccountID() {
+
         return accountID;
     }
 
@@ -42,7 +43,7 @@ public class Accounts {
         }
     }
 
-    // Display account details
+    // Display account details We can just execute this with this.displayAccountInfo()
     public void displayAccountInfo() {
         System.out.printf("Account ID: %d | Currency: %s | Balance: %.2f%n", accountID, currencyType, balance);
     }
