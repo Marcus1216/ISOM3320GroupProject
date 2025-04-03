@@ -26,6 +26,10 @@ public class Accounts {
         return balance;
     }
 
+    public void setCurrencyType(String a){
+        this.currencyType = a;   
+    }
+
     // Add to balance
     public void addToBalance(double amount) {
         this.balance += amount;
