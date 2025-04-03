@@ -103,8 +103,17 @@ public class Main {
         return null;
     }
 
-    public static sortDisplay(){
-        
+    // assume date, type, acc, amount in order
+    public static void sortDisplay(int sort){
+        Transactions temp;
+        int[] order = new int[transactionsList.size()]
+        switch(sort){
+            case 1:
+
+            default: 
+                System.out.println("Error, unable to sort, but these are all the transactions.");
+                displayTransactions();
+        }
     }
 }
 // rundown for how the process should work
