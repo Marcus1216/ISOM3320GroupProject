@@ -1,12 +1,14 @@
 package FinMgmt;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Scanner;
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 
 public class Main {
     private static ArrayList<Accounts> accountsList = new ArrayList<>(); // ArrayList to store accounts
     private static ArrayList<Transactions> transactionsList = new ArrayList<>(); // ArrayList to store transactions
+    private static ArrayList<TransactionType> transactionTypes = new ArrayList<>(); //ArrayList to store Transaction Types
 
     private static Scanner scanner = new Scanner(System.in);
 
@@ -14,19 +16,23 @@ public class Main {
         while (true) {
             System.out.println("\nFinance Management System");
             System.out.println("1. Create Account");
-            System.out.println("2. Create Transaction");
-            System.out.println("3. Display Accounts");
-            System.out.println("4. Display Transactions");
-            System.out.println("5. Exit");
+            System.out.println("2. Create Transaction Type");
+            System.out.println("3. Create Transaction");
+            System.out.println("4. Display Accounts");
+            System.out.println("5. Display Transactions");
+            System.out.println("6. Display Transaction Types");
+            System.out.println("7. Exit");
             System.out.print("Enter your choice: ");
 
             int choice = scanner.nextInt();
             switch (choice) {
                 case 1 -> createAccount();
-                case 2 -> createTransaction();
-                case 3 -> displayAccounts();
-                case 4 -> displayTransactions();
-                case 5 -> {
+                case 2 -> createTransactionType();
+                case 3 -> createTransaction();
+                case 4 -> displayAccounts();
+                case 5 -> displayTransactions();
+                case 6 -> displayTransactionTypes();
+                case 7 -> {
                     System.out.println("Exiting...");
                     return;
                 }
@@ -37,10 +43,35 @@ public class Main {
 
     // Method to create a new account
     public static void createAccount() {
-        System.out.println("\nEnter the currency type (e.g., HKD, USD): ");
-        String currencyType = scanner.next();
+        System.out.println("\nSelect the currency type:");
+        System.out.println("1. HKD");
+        System.out.println("2. USD");
+        System.out.println("3. EUR");
+        System.out.print("Enter your choice (1-3): ");
+        int currencyChoice = scanner.nextInt();
+
+        String currencyType;
+        switch (currencyChoice) {
+            case 1:
+                currencyType = "HKD";
+                break;
+            case 2:
+                currencyType = "USD";
+                break;
+            case 3:
+                currencyType = "EUR";
+                break;
+            default:
+                System.out.println("Invalid currency! Defaulting to 'HKD'.");
+                currencyType = "HKD";
+        }
+
         System.out.println("Enter the initial balance: ");
         double balance = scanner.nextDouble();
+        if (balance < 0) {
+            System.out.println("Initial balance cannot be negative! Setting to 0.");
+            balance = 0;
+        }
 
         Accounts account = new Accounts(currencyType, balance);
         accountsList.add(account); // Add the new account to the ArrayList
@@ -49,50 +80,135 @@ public class Main {
         account.displayAccountInfo();
     }
 
+    // Method to create a new transaction type
+    public static void createTransactionType() {
+        System.out.println("Enter the name of the new transaction type: ");
+        scanner.nextLine(); // Clear the newline character
+        String typeName = scanner.nextLine();
+
+        // Check if the transaction type already exists
+        for (TransactionType type : transactionTypes) {
+            if (type.getTypeName().equalsIgnoreCase(typeName)) {
+                System.out.println("Transaction type already exists!");
+                return;
+            }
+        }
+
+        // Add the new transaction type
+        TransactionType newType = new TransactionType(typeName);
+        transactionTypes.add(newType);
+        System.out.println("Transaction type added successfully!");
+    }
+
     // Method to create a new transaction
     public static void createTransaction() {
-        System.out.println("\nEnter the transaction date (e.g., YYYY-MM-DD): ");
-        String date = scanner.next();
-        System.out.println("Enter the transaction type (e.g., Food, Taxi): ");
-        String type = scanner.next();
+        if (accountsList.isEmpty()) {
+            System.out.println("No accounts exist! Please create an account first.");
+            return;
+        }
+        if (transactionTypes.isEmpty()) {
+            System.out.println("No transaction types exist! Please add a transaction type first.");
+            return;
+        }
+        LocalDate date;
+        while (true) {
+            System.out.println("\nEnter the transaction date (e.g., YYYY-MM-DD): ");
+            String dateInput = scanner.next();
+
+            try {
+                date = LocalDate.parse(dateInput); // Parse and validate the date
+                break; // Exit loop if the date is valid
+            } catch (DateTimeParseException e) {
+                System.out.println("Invalid date format! Please enter the date in 'YYYY-MM-DD' format.");
+            }
+        }
+
+        // Display transaction type options
+        System.out.println("Select the transaction type:");
+        for (int i = 0; i < transactionTypes.size(); i++) {
+            System.out.printf("%d. %s%n", (i + 1), transactionTypes.get(i).getTypeName());
+        }
+        System.out.print("Enter your choice: ");
+        int typeChoice = scanner.nextInt();
+
+        // Validate type choice
+        if (typeChoice < 1 || typeChoice > transactionTypes.size()) {
+            System.out.println("Invalid choice! Transaction type selection failed.");
+            return;
+        }
+        String type = transactionTypes.get(typeChoice - 1).getTypeName();
+
+
         System.out.println("Enter the account ID: ");
         int accountID = scanner.nextInt();
+
+        // Check if account exists
+        Accounts account = findAccountByID(accountID);
+        if (account == null) {
+            System.out.println("Error: Account with ID " + accountID + " does not exist!");
+            return;
+        }
+
         System.out.println("Enter the transaction amount: ");
         double amount = scanner.nextDouble();
+        if (amount <= 0) {
+            System.out.println("Error: Transaction amount must be positive!");
+            return;
+        }
+
+        // Check if balance is sufficient
+        if (amount > account.getBalance()) {
+            System.out.println("Error: Transaction amount (" + amount + ") exceeds account balance (" + account.getBalance() + ")!");
+            return;
+        }
+
         System.out.println("Enter remarks for the transaction: ");
         scanner.nextLine(); // Clear the newline
         String remarks = scanner.nextLine();
 
-        // Find the account by ID
-        Accounts account = findAccountByID(accountID);
-        if (account != null) {
-            account.deductFromBalance(amount);
-            Transactions transaction = new Transactions(date, type, account, amount, remarks);
-            transactionsList.add(transaction); // Add the new transaction to the ArrayList
+        // Deduct from balance and create transaction
+        account.deductFromBalance(amount); // This already has its own insufficient balance check, but we checked earlier too
+        Transactions transaction = new Transactions(date, type, account, amount, remarks);
+        transactionsList.add(transaction); // Add the new transaction to the ArrayList
 
-            System.out.println("Transaction created successfully!");
-            transaction.displayTransactionInfo();
-        } else {
-            System.out.println("Account not found!");
-        }
+        System.out.println("Transaction created successfully!");
+        transaction.displayTransactionInfo();
     }
 
     // Method to display all accounts
     public static void displayAccounts() {
-        System.out.println("\nAccounts:");
-        for (Accounts account : accountsList) {
-            account.displayAccountInfo();
+        if (accountsList.isEmpty()) {
+            System.out.println("\nNo accounts to display.");
+        } else {
+            System.out.println("\nAccounts:");
+            for (Accounts account : accountsList) {
+                account.displayAccountInfo();
+            }
         }
     }
 
     // Method to display all transactions
     public static void displayTransactions() {
-        System.out.println("\nTransactions:");
-        for (Transactions transaction : transactionsList) {
-            transaction.displayTransactionInfo();
+        if (transactionsList.isEmpty()) {
+            System.out.println("\nNo transactions to display.");
+        } else {
+            System.out.println("\nTransactions:");
+            for (Transactions transaction : transactionsList) {
+                transaction.displayTransactionInfo();
+            }
         }
     }
-
+    // Method to display all transaction types
+    public static void displayTransactionTypes() {
+        if (transactionTypes.isEmpty()) {
+            System.out.println("\nNo transaction types to display.");
+        } else {
+            System.out.println("\nTransaction Types:");
+            for (int i = 0; i < transactionTypes.size(); i++) {
+                System.out.printf("%d. %s%n", (i + 1), transactionTypes.get(i).getTypeName());
+            }
+        }
+    }
     // Utility method to find an account by ID
     private static Accounts findAccountByID(int accountID) {
         for (Accounts account : accountsList) {
@@ -103,10 +219,3 @@ public class Main {
         return null;
     }
 }
-// rundown for how the process should work
-// choose (possible) option
-//1) create account
-//2) create transaction
-//3) display with sorting func (talk at friday)
-
-
