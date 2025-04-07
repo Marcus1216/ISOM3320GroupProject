@@ -6,9 +6,9 @@ import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 
 public class Main {
-    private static ArrayList<Accounts> accountsList = new ArrayList<>(); // ArrayList to store accounts
-    private static ArrayList<Transactions> transactionsList = new ArrayList<>(); // ArrayList to store transactions
-    private static ArrayList<TransactionType> transactionTypes = new ArrayList<>(); //ArrayList to store Transaction Types
+    private static final ArrayList<Accounts> accountsList = new ArrayList<>(); // ArrayList to store accounts
+    private static final ArrayList<Transactions> transactionsList = new ArrayList<>(); // ArrayList to store transactions
+    private static final ArrayList<TransactionType> transactionTypes = new ArrayList<>(); //ArrayList to store Transaction Types
 
     private static Scanner scanner = new Scanner(System.in);
 
