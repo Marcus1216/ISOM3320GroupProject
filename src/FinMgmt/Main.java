@@ -111,17 +111,39 @@ public class Main {
             return;
         }
         LocalDate date;
+        LocalDate today = LocalDate.now();
         while (true) {
             System.out.println("\nEnter the transaction date (e.g., YYYY-MM-DD): ");
             String dateInput = scanner.next();
 
             try {
                 date = LocalDate.parse(dateInput); // Parse and validate the date
+                if (date.isAfter(today)){
+                    System.out.println("Cannot input future dates!");
+                    continue;
+                }
                 break; // Exit loop if the date is valid
             } catch (DateTimeParseException e) {
                 System.out.println("Invalid date format! Please enter the date in 'YYYY-MM-DD' format.");
             }
+
         }
+        System.out.println("\nSelect the currency type:");
+        System.out.println("1. HKD");
+        System.out.println("2. USD");
+        System.out.println("3. EUR");
+        System.out.print("Enter your choice (1-3): ");
+        int transactionCurrency = scanner.nextInt();
+
+        String transCurrencyType = switch (transactionCurrency) {
+            case 1 -> "HKD";
+            case 2 -> "USD";
+            case 3 -> "EUR";
+            default -> {
+                System.out.println("Invalid currency! Defaulting to 'HKD'.");
+                yield "HKD";
+            }
+        };
 
         // Display transaction type options
         System.out.println("Select the transaction type:");
@@ -148,6 +170,10 @@ public class Main {
             System.out.println("Error: Account with ID " + accountID + " does not exist!");
             return;
         }
+        if(!account.getCurrencyType().equals(transCurrencyType)){
+            System.out.println("Error: Account currency does not match transaction");
+            return;
+        }
 
         System.out.println("Enter the transaction amount: ");
         double amount = scanner.nextDouble();
@@ -168,7 +194,7 @@ public class Main {
 
         // Deduct from balance and create transaction
         account.deductFromBalance(amount); // This already has its own insufficient balance check, but we checked earlier too
-        Transactions transaction = new Transactions(date, type, account, amount, remarks);
+        Transactions transaction = new Transactions(transCurrencyType, date, type, account, amount, remarks);
         transactionsList.add(transaction); // Add the new transaction to the ArrayList
 
         System.out.println("Transaction created successfully!");
