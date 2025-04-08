@@ -28,7 +28,17 @@ public class Main {
                 case 1: createAccount();
                 case 2: createTransaction();
                 case 3: displayAccounts();
-                case 4: displayTransactions();
+                case 4: 
+                    System.out.println("\nYou can choose to sort the transactions by the following categories: ");
+                    System.out.println("The default sorting method is by Transaction ID.");
+                    System.out.println("1. Transaction Date");
+                    System.out.println("2. Transaction Type");
+                    System.out.println("3. Transaction Account ID");
+                    System.out.println("4. Transaction Amount");
+                    System.out.print("Enter your choice: ");
+
+                    int option = scanner.nextInt();
+                    sortDisplay(option);
                 case 5: {
                     System.out.println("Exiting...");
                     return;
@@ -112,9 +122,13 @@ public class Main {
             case 1:
                 Collections.sort(transactionsList, Transactions.TransDateComparator);
             case 2:
-            
+                Collections.sort(transactionsList, Transactions.TransTypeComparator);
+            case 3:
+                Collections.sort(transactionsList, Transactions.TransAccComparator);
+            case 4:
+                Collections.sort(transactionsList, Transactions.TransAmtComparator);
             default: 
-                System.out.println("Error, unable to sort, but these are all the transactions.");
+                Collections.sort(transactionsList, Transactions.TransIDComparator);
         }
         displayTransactions();
     }

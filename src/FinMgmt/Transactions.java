@@ -54,6 +54,39 @@ public class Transactions {
             return TransDate1.compareTo(TransDate2);
         }
     };
+
+    public static Comparator<Transactions> TransTypeComparator = new Comparator<Transactions>() {
+        public int compare(Transactions t1, Transactions t2){
+            String TransType1 = t1.getTransType();
+            String TransType2 = t2.getTransType();
+            return TransType1.compareTo(TransType2);
+        }
+    };
+
+    public static Comparator<Transactions> TransAccComparator = new Comparator<Transactions>() {
+        public int compare(Transactions t1, Transactions t2){
+            int TransAccID1 = t1.getTransAccounts().getAccountID();
+            int TransAccID2 = t2.getTransAccounts().getAccountID();
+            return TransAccID1 - TransAccID2;
+        }
+    };
+
+    public static Comparator<Transactions> TransAmtComparator = new Comparator<Transactions>() {
+        public int compare(Transactions t1, Transactions t2){
+            double TransAmt1 = t1.getAmount();
+            double TransAmt2 = t2.getAmount();
+            return (int) TransAmt1 - (int) TransAmt2;
+        }
+    };
+
+    public static Comparator<Transactions> TransIDComparator = new Comparator<Transactions>() {
+        public int compare(Transactions t1, Transactions t2){
+            int TransID1 = t1.getTransID();
+            int TransID2 = t2.getTransID();
+            return TransID1 - TransID2;
+        }
+    };
+
     // Display transaction details
     public void displayTransactionInfo() {
         System.out.printf(
