@@ -23,8 +23,11 @@ public class Transactions {
         this.remarks = remarks;
     }
     //Getters
+    public int getTransID(){
+        return transactionID;
+    }
 
-
+    public 
     // Display transaction details
     public void displayTransactionInfo() {
         System.out.printf(
