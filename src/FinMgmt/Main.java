@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Scanner;
 import java.time.LocalDate;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class Main {
     private static ArrayList<Accounts> accountsList = new ArrayList<>(); // ArrayList to store accounts
@@ -23,15 +25,15 @@ public class Main {
 
             int choice = scanner.nextInt();
             switch (choice) {
-                case 1 -> createAccount();
-                case 2 -> createTransaction();
-                case 3 -> displayAccounts();
-                case 4 -> displayTransactions();
-                case 5 -> {
+                case 1: createAccount();
+                case 2: createTransaction();
+                case 3: displayAccounts();
+                case 4: displayTransactions();
+                case 5: {
                     System.out.println("Exiting...");
                     return;
                 }
-                default -> System.out.println("Invalid choice! Please try again.");
+                default: System.out.println("Invalid choice! Please try again.");
             }
         }
     }
@@ -106,15 +108,15 @@ public class Main {
 
     // assume date, type, acc, amount in order
     public static void sortDisplay(int sort){
-        Transactions temp;
-        int[] order = new int[transactionsList.size()]
         switch(sort){
             case 1:
-
+                Collections.sort(transactionsList, Transactions.TransDateComparator);
+            case 2:
+            
             default: 
                 System.out.println("Error, unable to sort, but these are all the transactions.");
-                displayTransactions();
         }
+        displayTransactions();
     }
 }
 // rundown for how the process should work
