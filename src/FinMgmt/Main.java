@@ -256,43 +256,22 @@ public class Main {
         switch(sort){
             case 1:
                 sortDate();
+                break;
             case 2:
                 sortType();
+                break;
             case 3:
                 sortAcc();
+                break;
             case 4:
                 sortAmt();
+                break;
             default:
-            displayTransactions();
+                displayTransactions();
         }
         input.close();
     }
 
-   /*  public static void sortDisplay(){
-        System.out.println("\nYou can choose to sort the transactions by the following categories: ");
-        System.out.println("The default sorting method is by Transaction ID.");
-        System.out.println("1. Transaction Date");
-        System.out.println("2. Transaction Type");
-        System.out.println("3. Transaction Account ID");
-        System.out.println("4. Transaction Amount");
-        System.out.print("Enter your choice: ");
-        Scanner input = new Scanner(System.in);
-        int sort = input.nextInt();
-        switch(sort){
-            case 1:
-                Collections.sort(transactionsList, Transactions.TransDateComparator);
-            case 2:
-                Collections.sort(transactionsList, Transactions.TransTypeComparator);
-            case 3:
-                Collections.sort(transactionsList, Transactions.TransAccComparator);
-            case 4:
-                Collections.sort(transactionsList, Transactions.TransAmtComparator);
-            default:
-                Collections.sort(transactionsList, Transactions.TransIDComparator);
-        }
-        displayTransactions();
-    }
-*/
     public static void sortAcc(){
         int[] listsize = new int[transactionsList.size()];
         int temp;
