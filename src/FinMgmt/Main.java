@@ -8,7 +8,7 @@ import java.time.format.DateTimeParseException;
 public class Main {
     private static final ArrayList<Accounts> accountsList = new ArrayList<>(); // ArrayList to store accounts
     private static final ArrayList<Transactions> transactionsList = new ArrayList<>(); // ArrayList to store transactions
-    private static final ArrayList<TransactionType> transactionTypes = new ArrayList<>(); //ArrayList to store Transaction Types
+    private static final ArrayList<String> transactionTypes = new ArrayList<>(); //ArrayList to store Transaction Types
 
     private static Scanner scanner = new Scanner(System.in);
 
@@ -86,17 +86,16 @@ public class Main {
         scanner.nextLine(); // Clear the newline character
         String typeName = scanner.nextLine();
 
-        // Check if the transaction type already exists
-        for (TransactionType type : transactionTypes) {
-            if (type.getTypeName().equalsIgnoreCase(typeName)) {
+        for (int i = 0; i < transactionTypes.size(); i++) {
+            if (transactionTypes.get(i).equals(typeName)) {
                 System.out.println("Transaction type already exists!");
                 return;
             }
         }
 
         // Add the new transaction type
-        TransactionType newType = new TransactionType(typeName);
-        transactionTypes.add(newType);
+       // TransactionType newType = new TransactionType(typeName);
+        transactionTypes.add(typeName);
         System.out.println("Transaction type added successfully!");
     }
 
@@ -148,7 +147,7 @@ public class Main {
         // Display transaction type options
         System.out.println("Select the transaction type:");
         for (int i = 0; i < transactionTypes.size(); i++) {
-            System.out.printf("%d. %s%n", (i + 1), transactionTypes.get(i).getTypeName());
+            System.out.printf("%d. %s%n", (i + 1), transactionTypes.get(i));
         }
         System.out.print("Enter your choice: ");
         int typeChoice = scanner.nextInt();
@@ -158,7 +157,7 @@ public class Main {
             System.out.println("Invalid choice! Transaction type selection failed.");
             return;
         }
-        String type = transactionTypes.get(typeChoice - 1).getTypeName();
+        String type = transactionTypes.get(typeChoice - 1);
 
 
         System.out.println("Enter the account ID: ");
@@ -231,7 +230,7 @@ public class Main {
         } else {
             System.out.println("\nTransaction Types:");
             for (int i = 0; i < transactionTypes.size(); i++) {
-                System.out.printf("%d. %s%n", (i + 1), transactionTypes.get(i).getTypeName());
+                System.out.printf("%d. %s%n", (i + 1), transactionTypes.get(i));
             }
         }
     }
