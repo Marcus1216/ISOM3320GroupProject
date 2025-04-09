@@ -29,6 +29,7 @@ public class Main {
                 case 2: createTransaction();
                 case 3: displayAccounts();
                 case 4: 
+                //Sorted Display
                     System.out.println("\nYou can choose to sort the transactions by the following categories: ");
                     System.out.println("The default sorting method is by Transaction ID.");
                     System.out.println("1. Transaction Date");
@@ -116,7 +117,8 @@ public class Main {
         return null;
     }
 
-    // assume date, type, acc, amount in order
+    // Sorted Display
+    // Lazy to use Loop to Sort
     public static void sortDisplay(int sort){
         switch(sort){
             case 1:

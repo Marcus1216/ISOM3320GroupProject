@@ -46,6 +46,7 @@ public class Transactions {
         return remarks;
     }
 
+    //For Sorting Use
     public static Comparator<Transactions> TransDateComparator = new Comparator<Transactions>() {
         public int compare(Transactions t1, Transactions t2){
             LocalDate TransDate1 = t1.getTransDate();
