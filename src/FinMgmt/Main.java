@@ -67,8 +67,8 @@ public class Main {
                 System.out.println("Invalid currency! Defaulting to 'HKD'.");
                 currencyType = "HKD";
         }
-            System.out.println("Enter the initial balance: ");
-            double balance = scanner.nextDouble();
+        System.out.println("Enter the initial balance: ");
+        double balance = scanner.nextDouble();
 
         if (balance < 0) {
             System.out.println("Initial balance cannot be negative! Setting to 0.");
@@ -96,7 +96,7 @@ public class Main {
         }
 
         // Add the new transaction type
-       // TransactionType newType = new TransactionType(typeName);
+        // TransactionType newType = new TransactionType(typeName);
         transactionTypes.add(typeName);
         System.out.println("Transaction type added successfully!");
     }
@@ -119,7 +119,7 @@ public class Main {
 
             try {
                 date = LocalDate.parse(dateInput); // Parse and validate the date
-                if (date.isAfter(today)){
+                if (date.isAfter(today)) {
                     System.out.println("Cannot input future dates!");
                     continue;
                 }
@@ -171,7 +171,7 @@ public class Main {
             System.out.println("Error: Account with ID " + accountID + " does not exist!");
             return;
         }
-        if(!account.getCurrencyType().equals(transCurrencyType)){
+        if (!account.getCurrencyType().equals(transCurrencyType)) {
             System.out.println("Error: Account currency does not match transaction");
             return;
         }
@@ -225,6 +225,7 @@ public class Main {
             }
         }
     }
+
     // Method to display all transaction types
     public static void displayTransactionTypes() {
         if (transactionTypes.isEmpty()) {
@@ -236,6 +237,7 @@ public class Main {
             }
         }
     }
+
     // Utility method to find an account by ID
     private static Accounts findAccountByID(int accountID) {
         for (Accounts account : accountsList) {
@@ -245,28 +247,50 @@ public class Main {
         }
         return null;
     }
-    public static void sortDisplay(){
-        System.out.println("\nYou can choose to sort the transactions by the following categories: ");
-        System.out.println("The default sorting method is by Transaction ID.");
-        System.out.println("1. Transaction Date");
-        System.out.println("2. Transaction Type");
-        System.out.println("3. Transaction Account ID");
-        System.out.println("4. Transaction Amount");
-        System.out.print("Enter your choice: ");
-        Scanner input = new Scanner(System.in);
-        int sort = input.nextInt();
-        switch(sort){
-            case 1:
-                Collections.sort(transactionsList, Transactions.TransDateComparator);
-            case 2:
-                Collections.sort(transactionsList, Transactions.TransTypeComparator);
-            case 3:
-                Collections.sort(transactionsList, Transactions.TransAccComparator);
-            case 4:
-                Collections.sort(transactionsList, Transactions.TransAmtComparator);
-            default:
-                Collections.sort(transactionsList, Transactions.TransIDComparator);
+
+        public static void sortByDate() {
+            transactionsList.sort(Comparator.comparing(Transactions::getTransDate));
+            displayTransactions();
         }
-        displayTransactions();
+
+        // Sorting by Transaction Type
+        public static void sortByType() {
+            transactionsList.sort(Comparator.comparing(Transactions::getTransType));
+            displayTransactions();
+        }
+
+        // Sorting by Account ID
+        public static void sortByAccountID() {
+            transactionsList.sort(Comparator.comparing(t -> t.getTransAccounts().getAccountID()));
+            displayTransactions();
+        }
+
+        // Sorting by Transaction Amount
+        public static void sortByAmount() {
+            transactionsList.sort(Comparator.comparing(Transactions::getAmount));
+            displayTransactions();
+        }
+
+        // Main sorting display method
+        public static void sortDisplay() {
+            System.out.println("\nYou can choose to sort the transactions by the following categories: ");
+            System.out.println("The default sorting method is by Transaction ID.");
+            System.out.println("1. Transaction Date");
+            System.out.println("2. Transaction Type");
+            System.out.println("3. Transaction Account ID");
+            System.out.println("4. Transaction Amount");
+            System.out.print("Enter your choice: ");
+
+            int sortChoice = scanner.nextInt();
+            switch (sortChoice) {
+                case 1 -> sortByDate();
+                case 2 -> sortByType();
+                case 3 -> sortByAccountID();
+                case 4 -> sortByAmount();
+                default -> {
+                    System.out.println("Invalid choice! Displaying transactions without sorting.");
+                    displayTransactions();
+                }
+            }
+        }
     }
-}
