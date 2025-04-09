@@ -2,6 +2,7 @@ package FinMgmt;
 
 import java.util.Date;
 import java.time.LocalDate;
+import java.util.Comparator;
 
 public class Transactions {
     private static int idCounter = 1; // Static ID generator for transactions
@@ -24,7 +25,71 @@ public class Transactions {
         this.remarks = remarks;
     }
     //Getters
+    //Getters
+    public int getTransID(){
+        return transactionID;
+    }
 
+    public LocalDate getTransDate(){
+        return transactionDate;
+    }
+
+    public String getTransType(){
+        return transactionType;
+    }
+
+    public Accounts getTransAccounts(){
+        return account;
+    }
+
+    public double getAmount(){
+        return amount;
+    }
+
+    public String getRemarks(){
+        return remarks;
+    }
+
+    //For Sorting Use
+    public static Comparator<Transactions> TransDateComparator = new Comparator<Transactions>() {
+        public int compare(Transactions t1, Transactions t2){
+            LocalDate TransDate1 = t1.getTransDate();
+            LocalDate TransDate2 = t2.getTransDate();
+            return TransDate1.compareTo(TransDate2);
+        }
+    };
+
+    public static Comparator<Transactions> TransTypeComparator = new Comparator<Transactions>() {
+        public int compare(Transactions t1, Transactions t2){
+            String TransType1 = t1.getTransType();
+            String TransType2 = t2.getTransType();
+            return TransType1.compareTo(TransType2);
+        }
+    };
+
+    public static Comparator<Transactions> TransAccComparator = new Comparator<Transactions>() {
+        public int compare(Transactions t1, Transactions t2){
+            int TransAccID1 = t1.getTransAccounts().getAccountID();
+            int TransAccID2 = t2.getTransAccounts().getAccountID();
+            return TransAccID1 - TransAccID2;
+        }
+    };
+
+    public static Comparator<Transactions> TransAmtComparator = new Comparator<Transactions>() {
+        public int compare(Transactions t1, Transactions t2){
+            double TransAmt1 = t1.getAmount();
+            double TransAmt2 = t2.getAmount();
+            return (int) (TransAmt1 - TransAmt2);
+        }
+    };
+
+    public static Comparator<Transactions> TransIDComparator = new Comparator<Transactions>() {
+        public int compare(Transactions t1, Transactions t2){
+            int TransID1 = t1.getTransID();
+            int TransID2 = t2.getTransID();
+            return TransID1 - TransID2;
+        }
+    };
 
     // Display transaction details
     public void displayTransactionInfo() {

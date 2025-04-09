@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class Main {
     private static final ArrayList<Accounts> accountsList = new ArrayList<>(); // ArrayList to store accounts
@@ -24,15 +26,15 @@ public class Main {
             System.out.println("7. Exit");
             System.out.print("Enter your choice: ");
 
-            int choice = scanner.nextInt();
+            String choice = scanner.next();
             switch (choice) {
-                case 1 -> createAccount();
-                case 2 -> createTransactionType();
-                case 3 -> createTransaction();
-                case 4 -> displayAccounts();
-                case 5 -> displayTransactions();
-                case 6 -> displayTransactionTypes();
-                case 7 -> {
+                case "1" -> createAccount();
+                case "2" -> createTransactionType();
+                case "3" -> createTransaction();
+                case "4" -> displayAccounts();
+                case "5" -> sortDisplay();
+                case "6" -> displayTransactionTypes();
+                case "7" -> {
                     System.out.println("Exiting...");
                     return;
                 }
@@ -65,9 +67,9 @@ public class Main {
                 System.out.println("Invalid currency! Defaulting to 'HKD'.");
                 currencyType = "HKD";
         }
+            System.out.println("Enter the initial balance: ");
+            double balance = scanner.nextDouble();
 
-        System.out.println("Enter the initial balance: ");
-        double balance = scanner.nextDouble();
         if (balance < 0) {
             System.out.println("Initial balance cannot be negative! Setting to 0.");
             balance = 0;
@@ -242,5 +244,29 @@ public class Main {
             }
         }
         return null;
+    }
+    public static void sortDisplay(){
+        System.out.println("\nYou can choose to sort the transactions by the following categories: ");
+        System.out.println("The default sorting method is by Transaction ID.");
+        System.out.println("1. Transaction Date");
+        System.out.println("2. Transaction Type");
+        System.out.println("3. Transaction Account ID");
+        System.out.println("4. Transaction Amount");
+        System.out.print("Enter your choice: ");
+        Scanner input = new Scanner(System.in);
+        int sort = input.nextInt();
+        switch(sort){
+            case 1:
+                Collections.sort(transactionsList, Transactions.TransDateComparator);
+            case 2:
+                Collections.sort(transactionsList, Transactions.TransTypeComparator);
+            case 3:
+                Collections.sort(transactionsList, Transactions.TransAccComparator);
+            case 4:
+                Collections.sort(transactionsList, Transactions.TransAmtComparator);
+            default:
+                Collections.sort(transactionsList, Transactions.TransIDComparator);
+        }
+        displayTransactions();
     }
 }
