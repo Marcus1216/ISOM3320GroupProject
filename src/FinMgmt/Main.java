@@ -269,7 +269,6 @@ public class Main {
             default:
                 displayTransactions();
         }
-        input.close();
     }
 
     public static void sortAcc(){
