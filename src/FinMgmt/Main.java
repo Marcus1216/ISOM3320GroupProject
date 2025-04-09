@@ -7,7 +7,7 @@ import java.time.format.DateTimeParseException;
 
 /*User Guide:
 * Step 1: You have to create an account (Your acct no. will follow the chronological order), select your currency account
-* and you will only be allowed to do transaction in that currency. Follow the remaining instructions to finish creating your account
+* & you will only be allowed to do transaction in that currency. Follow the remaining instructions to finish creating your account
 * Step 2: Create your desired Transaction Type, To ensure there is no data incompleteness in the future, you won't be allowed to delete Types after creation
 * Step3: Create Transactions if needed, You must choose a transaction type created before. The transaction recording process will terminate
 * if you the transaction currency is different to your account currency.
