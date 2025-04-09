@@ -4,8 +4,16 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
-import java.util.Collections;
-import java.util.Comparator;
+
+/*User Guide:
+* Step 1: You have to create an account (Your acct no. will follow the chronological order), select your currency account
+* and you will only be allowed to do transaction in that currency. Follow the remaining instructions to finish creating your account
+* Step 2: Create your desired Transaction Type, To ensure there is no data incompleteness in the future, you won't be allowed to delete Types after creation
+* Step3: Create Transactions if needed, You must choose a transaction type created before. The transaction recording process will terminate
+* if you the transaction currency is different to your account currency.
+* You are able to sort "display transactions" in ascending order.
+*
+ */
 
 public class Main {
     private static final ArrayList<Accounts> accountsList = new ArrayList<>(); // ArrayList to store accounts
@@ -88,18 +96,19 @@ public class Main {
         scanner.nextLine(); // Clear the newline character
         String typeName = scanner.nextLine();
 
-        for (int i = 0; i < transactionTypes.size(); i++) {
-            if (transactionTypes.get(i).equals(typeName)) {
+        // Check if the transaction type already exists (case-insensitive)
+        for (String existingType : transactionTypes) {
+            if (existingType.equalsIgnoreCase(typeName)) {
                 System.out.println("Transaction type already exists!");
                 return;
             }
         }
 
         // Add the new transaction type
-        // TransactionType newType = new TransactionType(typeName);
         transactionTypes.add(typeName);
         System.out.println("Transaction type added successfully!");
     }
+
 
     // Method to create a new transaction
     public static void createTransaction() {
@@ -290,15 +299,16 @@ public class Main {
     public static void sortType() {
         for (int i = 0; i < transactionsList.size() - 1; i++) {
             for (int j = 0; j < transactionsList.size() - i - 1; j++) {
-                if (transactionsList.get(j).getTransType().compareTo(transactionsList.get(j + 1).getTransType()) > 0) {
-                    // Swap if the current transaction type is lexicographically greater than the next
+                // Use compareToIgnoreCase for case-insensitive comparison
+                if (transactionsList.get(j).getTransType().compareToIgnoreCase(transactionsList.get(j + 1).getTransType()) > 0) {
+                    // Swap transactions if the current type is greater than the next
                     Transactions temp = transactionsList.get(j);
                     transactionsList.set(j, transactionsList.get(j + 1));
                     transactionsList.set(j + 1, temp);
                 }
             }
         }
-        System.out.println("\nTransactions sorted by Type:");
+        System.out.println("\nTransactions sorted by Type (case-insensitive):");
         displayTransactions();
     }
 
