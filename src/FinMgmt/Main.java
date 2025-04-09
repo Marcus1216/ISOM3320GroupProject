@@ -248,49 +248,89 @@ public class Main {
         return null;
     }
 
-        public static void sortByDate() {
-            transactionsList.sort(Comparator.comparing(Transactions::getTransDate));
-            displayTransactions();
-        }
+    public static void sortDisplay() {
+        System.out.println("\nYou can choose to sort the transactions by the following categories: ");
+        System.out.println("The default sorting method is by Transaction ID.");
+        System.out.println("1. Transaction Date");
+        System.out.println("2. Transaction Type");
+        System.out.println("3. Transaction Account ID");
+        System.out.println("4. Transaction Amount");
+        System.out.print("Enter your choice: ");
 
-        // Sorting by Transaction Type
-        public static void sortByType() {
-            transactionsList.sort(Comparator.comparing(Transactions::getTransType));
-            displayTransactions();
-        }
-
-        // Sorting by Account ID
-        public static void sortByAccountID() {
-            transactionsList.sort(Comparator.comparing(t -> t.getTransAccounts().getAccountID()));
-            displayTransactions();
-        }
-
-        // Sorting by Transaction Amount
-        public static void sortByAmount() {
-            transactionsList.sort(Comparator.comparing(Transactions::getAmount));
-            displayTransactions();
-        }
-
-        // Main sorting display method
-        public static void sortDisplay() {
-            System.out.println("\nYou can choose to sort the transactions by the following categories: ");
-            System.out.println("The default sorting method is by Transaction ID.");
-            System.out.println("1. Transaction Date");
-            System.out.println("2. Transaction Type");
-            System.out.println("3. Transaction Account ID");
-            System.out.println("4. Transaction Amount");
-            System.out.print("Enter your choice: ");
-
-            int sortChoice = scanner.nextInt();
-            switch (sortChoice) {
-                case 1 -> sortByDate();
-                case 2 -> sortByType();
-                case 3 -> sortByAccountID();
-                case 4 -> sortByAmount();
-                default -> {
-                    System.out.println("Invalid choice! Displaying transactions without sorting.");
-                    displayTransactions();
-                }
+        int sortChoice = scanner.nextInt(); // Use a shared scanner object
+        switch (sortChoice) {
+            case 1 -> sortDate();
+            case 2 -> sortType();
+            case 3 -> sortAcc();
+            case 4 -> sortAmt();
+            default -> {
+                System.out.println("Invalid choice! Displaying transactions without sorting.");
+                displayTransactions();
             }
         }
     }
+
+    // Sorting by Transaction Date (Ascending)
+    public static void sortDate() {
+        for (int i = 0; i < transactionsList.size() - 1; i++) {
+            for (int j = 0; j < transactionsList.size() - i - 1; j++) {
+                if (transactionsList.get(j).getTransDate().isAfter(transactionsList.get(j + 1).getTransDate())) {
+                    // Swap adjacent transactions if they are in the wrong order
+                    Transactions temp = transactionsList.get(j);
+                    transactionsList.set(j, transactionsList.get(j + 1));
+                    transactionsList.set(j + 1, temp);
+                }
+            }
+        }
+        System.out.println("\nTransactions sorted by Date:");
+        displayTransactions();
+    }
+
+    // Sorting by Transaction Type (Alphabetically)
+    public static void sortType() {
+        for (int i = 0; i < transactionsList.size() - 1; i++) {
+            for (int j = 0; j < transactionsList.size() - i - 1; j++) {
+                if (transactionsList.get(j).getTransType().compareTo(transactionsList.get(j + 1).getTransType()) > 0) {
+                    // Swap if the current transaction type is lexicographically greater than the next
+                    Transactions temp = transactionsList.get(j);
+                    transactionsList.set(j, transactionsList.get(j + 1));
+                    transactionsList.set(j + 1, temp);
+                }
+            }
+        }
+        System.out.println("\nTransactions sorted by Type:");
+        displayTransactions();
+    }
+
+    // Sorting by Account ID (Ascending)
+    public static void sortAcc() {
+        for (int i = 0; i < transactionsList.size() - 1; i++) {
+            for (int j = 0; j < transactionsList.size() - i - 1; j++) {
+                if (transactionsList.get(j).getTransAccounts().getAccountID() > transactionsList.get(j + 1).getTransAccounts().getAccountID()) {
+                    // Swap if the current account ID is greater than the next
+                    Transactions temp = transactionsList.get(j);
+                    transactionsList.set(j, transactionsList.get(j + 1));
+                    transactionsList.set(j + 1, temp);
+                }
+            }
+        }
+        System.out.println("\nTransactions sorted by Account ID:");
+        displayTransactions();
+    }
+
+    // Sorting by Transaction Amount (Ascending)
+    public static void sortAmt() {
+        for (int i = 0; i < transactionsList.size() - 1; i++) {
+            for (int j = 0; j < transactionsList.size() - i - 1; j++) {
+                if (transactionsList.get(j).getAmount() > transactionsList.get(j + 1).getAmount()) {
+                    // Swap if the current amount is greater than the next
+                    Transactions temp = transactionsList.get(j);
+                    transactionsList.set(j, transactionsList.get(j + 1));
+                    transactionsList.set(j + 1, temp);
+                }
+            }
+        }
+        System.out.println("\nTransactions sorted by Amount:");
+        displayTransactions();
+    }
+}
