@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
-import java.util.Collections;
-import java.util.Comparator;
 
 public class Main {
     private static final ArrayList<Accounts> accountsList = new ArrayList<>(); // ArrayList to store accounts
@@ -257,6 +255,31 @@ public class Main {
         int sort = input.nextInt();
         switch(sort){
             case 1:
+                sortDate();
+            case 2:
+                sortType();
+            case 3:
+                sortAcc();
+            case 4:
+                sortAmt();
+            default:
+            displayTransactions();
+        }
+        input.close();
+    }
+
+   /*  public static void sortDisplay(){
+        System.out.println("\nYou can choose to sort the transactions by the following categories: ");
+        System.out.println("The default sorting method is by Transaction ID.");
+        System.out.println("1. Transaction Date");
+        System.out.println("2. Transaction Type");
+        System.out.println("3. Transaction Account ID");
+        System.out.println("4. Transaction Amount");
+        System.out.print("Enter your choice: ");
+        Scanner input = new Scanner(System.in);
+        int sort = input.nextInt();
+        switch(sort){
+            case 1:
                 Collections.sort(transactionsList, Transactions.TransDateComparator);
             case 2:
                 Collections.sort(transactionsList, Transactions.TransTypeComparator);
@@ -268,5 +291,85 @@ public class Main {
                 Collections.sort(transactionsList, Transactions.TransIDComparator);
         }
         displayTransactions();
+    }
+*/
+    public static void sortAcc(){
+        int[] listsize = new int[transactionsList.size()];
+        int temp;
+        for (int i = 0; i < transactionsList.size(); i++){
+            listsize[i] = i;
+        }
+        for (int i = 0; i < transactionsList.size(); i++){
+            for (int j = 0; j < transactionsList.size() - 1; j++){
+                if (transactionsList.get(listsize[j]).getTransAccounts().getAccountID() > transactionsList.get(listsize[j + 1]).getTransAccounts().getAccountID()){
+                    temp = listsize[j];
+                    listsize[j] = listsize[j + 1];
+                    listsize[j + 1] = temp;
+                }
+            }
+        }
+        for (int i = 0; i < transactionsList.size(); i++){
+            transactionsList.get(listsize[i]).displayTransactionInfo();
+        }
+    }
+
+    public static void sortAmt(){
+        int[] listsize = new int[transactionsList.size()];
+        int temp;
+        for (int i = 0; i < transactionsList.size(); i++){
+            listsize[i] = i;
+        }
+        for (int i = 0; i < transactionsList.size(); i++){
+            for (int j = 0; j < transactionsList.size() - 1; j++){
+                if (transactionsList.get(listsize[j]).getAmount() > transactionsList.get(listsize[j + 1]).getAmount()){
+                    temp = listsize[j];
+                    listsize[j] = listsize[j + 1];
+                    listsize[j + 1] = temp;
+                }
+            }
+        }
+        for (int i = 0; i < transactionsList.size(); i++){
+            transactionsList.get(listsize[i]).displayTransactionInfo();
+        }
+    }
+
+    public static void sortType(){
+        int[] listsize = new int[transactionsList.size()];
+        int temp;
+        for (int i = 0; i < transactionsList.size(); i++){
+            listsize[i] = i;
+        }
+        for (int i = 0; i < transactionsList.size(); i++){
+            for (int j = 0; j < transactionsList.size() - 1; j++){
+                if (transactionsList.get(listsize[j]).getTransType().compareTo(transactionsList.get(listsize[j + 1]).getTransType()) > 0){
+                    temp = listsize[j];
+                    listsize[j] = listsize[j + 1];
+                    listsize[j + 1] = temp;
+                }
+            }
+        }
+        for (int i = 0; i < transactionsList.size(); i++){
+            transactionsList.get(listsize[i]).displayTransactionInfo();
+        }
+    }
+
+    public static void sortDate(){
+        int[] listsize = new int[transactionsList.size()];
+        int temp;
+        for (int i = 0; i < transactionsList.size(); i++){
+            listsize[i] = i;
+        }
+        for (int i = 0; i < transactionsList.size(); i++){
+            for (int j = 0; j < transactionsList.size() - 1; j++){
+                if (transactionsList.get(listsize[j]).getTransDate().isAfter(transactionsList.get(listsize[j + 1]).getTransDate())){
+                    temp = listsize[j];
+                    listsize[j] = listsize[j + 1];
+                    listsize[j + 1] = temp;
+                }
+            }
+        }
+        for (int i = 0; i < transactionsList.size(); i++){
+            transactionsList.get(listsize[i]).displayTransactionInfo();
+        }
     }
 }
