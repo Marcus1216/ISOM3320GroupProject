@@ -1,6 +1,5 @@
 package FinMgmt;
 
-import java.util.Date;
 import java.time.LocalDate;
 import java.util.Comparator;
 
@@ -75,7 +74,7 @@ public class Transactions {
         public int compare(Transactions t1, Transactions t2){
             double TransAmt1 = t1.getAmount();
             double TransAmt2 = t2.getAmount();
-            return (int) TransAmt1 - (int) TransAmt2;
+            return (int) (TransAmt1 - TransAmt2);
         }
     };
 
